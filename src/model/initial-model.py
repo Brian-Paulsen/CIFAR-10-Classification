@@ -1,5 +1,7 @@
 from loaddata import create_master_dataset
 
+import numpy as np
+
 from tensorflow.keras.models import Sequential
 from tensorflow.keras import layers
 from tensorflow.keras.utils import to_categorical
@@ -12,13 +14,13 @@ trainSize = int(trainXTemp.shape[0] * 0.8)
 valSize = trainXTemp.shape[0] - trainSize
 testSize = testXTemp.shape[0]
 
-allTrainSet = trainXTemp.reshape([trainSize+valSize, 32, 32, 3])
+allTrainSet = np.moveaxis(trainXTemp.reshape([trainSize+valSize, 3, 32, 32]), 1, -1)
 
-trainX = allTrainSet[:trainSize]
+trainX = allTrainSet[:trainSize] / 255
 trainY = to_categorical(trainYTemp[:trainSize])
-valX = allTrainSet[trainSize:]
+valX = allTrainSet[trainSize:] / 255
 valY = to_categorical(trainYTemp[trainSize:])
-testX = testXTemp.reshape([testSize, 32, 32, 3])
+testX = np.moveaxis(testXTemp.reshape([testSize, 3, 32, 32]) / 255, 1, -1)
 testY = to_categorical(testYTemp)
 
 model = Sequential()
@@ -43,4 +45,4 @@ model.summary()
 
 model.compile(loss='categorical_crossentropy', optimizer='adam',
               metrics=['categorical_accuracy'])
-model.fit(trainX, trainY, epochs=10, validation_data=(valX, valY), verbose=2)
+model.fit(trainX, trainY, epochs=60, validation_data=(valX, valY), verbose=1)
