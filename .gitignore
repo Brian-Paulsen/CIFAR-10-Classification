@@ -1,4 +1,7 @@
-led / optimized / DLL files
+# data directory
+data/
+
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
