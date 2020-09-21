@@ -25,13 +25,12 @@ def create_master_dataset(directory):
         n = len(trainDicts[0][b'labels'])
         trainLabels[nextEmpty:(nextEmpty+n)] = d[b'labels']
         trainData[nextEmpty:(nextEmpty+n),] = d[b'data']
+        nextEmpty += n
 
     testDict = unpickle(testFile)
-    testSize = len(testDict[b'labels'])
-    testLabels = np.zeros((testSize,))
-    testData = np.zeros((testSize,3072))
+    testLabels = np.array(testDict[b'labels'])
+    testData = np.array(testDict[b'data'])
 
     return trainData, trainLabels, testData, testLabels
 
-create_master_dataset('../../data/raw/cifar-10-batches-py')
-
+outputs = create_master_dataset('../../data/raw/cifar-10-batches-py')
