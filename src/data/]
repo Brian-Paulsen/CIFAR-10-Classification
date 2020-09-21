@@ -21,10 +21,10 @@ def create_master_dataset(directory):
     trainData = np.zeros((trainSize,3072))
     
     nextEmpty = 0
-    for d in trainDicts:
+    for d in dataLists:
         n = len(trainDicts[0][b'labels'])
-        trainLabels[nextEmpty:(nextEmpty+n)] = d[b'labels']
-        trainData[nextEmpty:(nextEmpty+n),] = d[b'data']
+        labels[nextEmpty:(nextEmpty+n)] = d[b'labels']
+        data[nextEmpty:(nextEmpty+n),] = d[b'data']
 
     testDict = unpickle(testFile)
     testSize = len(testDict[b'labels'])
